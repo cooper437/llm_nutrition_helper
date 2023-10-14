@@ -151,3 +151,5 @@ dmypy.json
 # secrets
 config/secrets.yaml
 
+
+.streamlit/secrets.toml
