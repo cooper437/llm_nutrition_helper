@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "takehome"
+version = "0.1.0"
+description = ""
+authors = ["Sam Cooper <cooper437@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.11.4"
+llama-index = "^0.8.45.post1"
+streamlit = "^1.27.2"
+openai = "^0.28.1"
+nltk = "^3.8.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
