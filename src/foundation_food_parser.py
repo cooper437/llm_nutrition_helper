@@ -39,6 +39,7 @@ def parse_foundation_ingredients_nutrition_df():
         df = df[
             [
                 "description",
+                "fdcId",
                 "foodCategory.description",
                 "foodNutrients",
             ]
@@ -47,5 +48,7 @@ def parse_foundation_ingredients_nutrition_df():
         df["carbs"] = df["foodNutrients"].apply(extract_carbs)
         df["fat"] = df["foodNutrients"].apply(extract_fat)
         df["protein"] = df["foodNutrients"].apply(extract_protein)
+        # Convert fdcId to string so it can be used as an id in the vector store
+        df["fdcId"] = df["fdcId"].astype(str)
         df = df.drop("foodNutrients", axis=1)
         return df

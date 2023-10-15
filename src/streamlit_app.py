@@ -3,7 +3,8 @@ from llama_index import VectorStoreIndex, ServiceContext, Document
 from llama_index.llms import OpenAI
 import openai
 from llama_index import SimpleDirectoryReader
-from meal_name import generate_meal_names
+from src.meal_name_expander import generate_meal_names
+from llama_index.query_engine.pandas_query_engine import PandasQueryEngine
 
 openai.log = "debug"
 
@@ -29,6 +30,16 @@ if "messages" not in st.session_state.keys():  # Initialize the chat messages hi
             "content": "Hello! Provide a short description of the meal you just ate and I'll find the nutrition information for you.",
         }
     ]
+
+
+# @st.cache_resource(show_spinner=False)
+# def load_data():
+#     with st.spinner(
+#         text="Loading and indexing the food nutrients data. This should take less than a minute minutes."
+#     ):
+
+
+# index = load_data()
 
 if prompt := st.chat_input(
     "Description of a meal or snack"
