@@ -38,6 +38,7 @@ messages = [
 
 
 def generate_meal_names(a_meal_name: str) -> str:
+    # Expand a meal name or short description into a list of similar meal names
     messages.append({"role": "user", "content": a_meal_name})
     logging.info('Fetching completion from for "{}"'.format(a_meal_name))
     response = openai.ChatCompletion.create(
@@ -46,6 +47,3 @@ def generate_meal_names(a_meal_name: str) -> str:
         temperature=0.5,
     )
     return response.choices[0].message.content
-
-
-# generate_meal_names("Triple Chocolate Cake")

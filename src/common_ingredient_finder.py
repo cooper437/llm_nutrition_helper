@@ -41,6 +41,8 @@ def parse_json_string(json_str: str) -> List[str]:
 
 
 def generate_prominent_ingredients(meal_names: str) -> str:
+    # Given a list of meal names, return the common and prominent ingredients
+    # that can be used to compose the meal
     messages.append({"role": "user", "content": meal_names})
     logging.info(
         'Fetching common and prominent ingredients for meal names "{}"'.format(

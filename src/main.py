@@ -8,7 +8,7 @@ from src.common_ingredient_finder import (
 )
 from src.foundation_food_vector_store import FoundationFoodsVectorStore
 
-
+# Initialize the page configuration
 st.set_page_config(
     page_title="Look up foods based on nutritional needs",
     page_icon="🦙",
@@ -18,9 +18,9 @@ st.set_page_config(
 )
 openai.api_key = st.secrets.openai_key
 st.title("Meal Nutrition Helper")
-# prompt = st.chat_input("Say something")
 
 
+# Cache the vector database to avoid reinitializing embeddings on every page load
 @st.cache_resource(show_spinner=True)
 def init_db():
     vector_db = FoundationFoodsVectorStore()
@@ -39,15 +39,17 @@ if "messages" not in st.session_state.keys():  # Initialize the chat messages hi
         }
     ]
 
+# The prompt for the user to enter a meal name or description
 if prompt := st.chat_input(
     "Short description of a meal or snack"
 ):  # Prompt for user input and save to chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
 
-for a_message in st.session_state.messages:  # Display the prior chat messages
+# Display the prior chat messages
+for a_message in st.session_state.messages:
     with st.chat_message(a_message["role"]):
         st.write(a_message["content"])
-
+# If the last message was not the ai assistant then generate a response
 if st.session_state.messages[-1]["role"] != "assistant":
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
@@ -88,6 +90,7 @@ if st.session_state.messages[-1]["role"] != "assistant":
                 "And here's the total estimated nutrition info for your whole meal:"
             )
             st.dataframe(nutrition_sum_df, column_config={"0": "Totals"})
+    # Write the next response
     next_message = {
         "role": "assistant",
         "content": "Thanks for using the Meal Nutrition Helper! Try again?",
