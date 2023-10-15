@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 from llama_index import VectorStoreIndex, ServiceContext, Document
 from llama_index.llms import OpenAI
 import openai
@@ -36,16 +37,6 @@ if "messages" not in st.session_state.keys():  # Initialize the chat messages hi
         }
     ]
 
-
-# @st.cache_resource(show_spinner=False)
-# def load_data():
-#     with st.spinner(
-#         text="Loading and indexing the food nutrients data. This should take less than a minute minutes."
-#     ):
-
-
-# index = load_data()
-
 if prompt := st.chat_input(
     "Description of a meal or snack"
 ):  # Prompt for user input and save to chat history
@@ -68,6 +59,7 @@ if st.session_state.messages[-1]["role"] != "assistant":
             prominent_ingredients = generate_prominent_ingredients(
                 similar_meal_names_response
             )
+            st.write("Gathering ingredients...")
             st.write("Okay here are some ingredients that seeem likely:")
             prominent_ingredients_md = ""
             prominent_ingredients_list = parse_json_string(prominent_ingredients)
@@ -75,6 +67,23 @@ if st.session_state.messages[-1]["role"] != "assistant":
                 prominent_ingredients_md += "- " + i + "\n"
             st.markdown(prominent_ingredients_md)
             st.write("Finding nutrition info for these ingredients...")
+            foundation_ingredients_df = []
             for an_ingredient in prominent_ingredients_list:
-                query_vector_store_index(an_ingredient)
+                most_similar_foundation_ingredient = query_vector_store_index(
+                    an_ingredient
+                )
+                foundation_ingredients_df.append(most_similar_foundation_ingredient)
+            foundation_ingredients_df = pd.DataFrame.from_records(
+                foundation_ingredients_df
+            )
+            foundation_ingredients_df.drop_duplicates(
+                inplace=True, subset=["Description"]
+            )
+            st.dataframe(foundation_ingredients_df, width=750, hide_index=True)
+            nutrition_sum_df = foundation_ingredients_df.sum()
+            nutrition_sum_df = nutrition_sum_df.drop("Description")
+            st.write(
+                "And here's the total estimated nutrition info for your whole meal:"
+            )
+            st.dataframe(nutrition_sum_df, column_config={"0": "Totals"})
             # st.session_state.messages.append(first_message)  # Add response to message history

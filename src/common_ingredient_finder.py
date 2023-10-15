@@ -24,6 +24,7 @@ messages = [
 
 
 def parse_json_string(json_str: str) -> List[str]:
+    """Convert a JSON-formatted string to a Python list of strings"""
     try:
         # Parse the JSON-formatted string and convert it to a Python list
         parsed_list = json.loads(json_str)
@@ -52,6 +53,3 @@ def generate_prominent_ingredients(meal_names: str) -> str:
         temperature=0.5,
     )
     return response.choices[0].message.content
-
-
-# generate_meal_names("Triple Chocolate Cake")

@@ -26,7 +26,18 @@ def query_vector_store_index(an_ingredient: str, n_results: int = 1):
     print(f"Querying vector store index for {an_ingredient}")
     results = collection.query(query_texts=[an_ingredient], n_results=n_results)
     print(f"Most similar result: {results}")
-    return results
+    description = results["documents"][0][0]
+    calories = results["metadatas"][0][0]["calories"]
+    carbs = results["metadatas"][0][0]["carbs"]
+    fat = results["metadatas"][0][0]["fat"]
+    protein = results["metadatas"][0][0]["protein"]
+    return {
+        "Description": description,
+        "Calories (kcal)": calories,
+        "Carbs (g)": carbs,
+        "Fat (g)": fat,
+        "Protein (g)": protein,
+    }
 
 
 build_vector_store_index()
