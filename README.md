@@ -13,3 +13,30 @@ There are four stages to the chatbot:
 6. Lastly we aggregate the nutritional information across the top 5 results and return the total calories, fat, carbs, and protein for the meal.
 
 ## Environment Setup
+* Make sure [poetry] is installed(https://python-poetry.org/) - Virtualenv setup
+* Make sure python 3.11.4 is installed
+* Install python dependendcies: 
+```shell
+$ poetry install
+```
+* Spawn a virtualenv
+```shell
+$ poetry shell
+```
+* Add a secrets.toml file
+```shell
+$ touch .streamlit/secrets.toml
+```
+* Add your personal openai api key to the secrets.toml file you just created
+```toml
+openai_key = "REPLACE THIS WITH THE CONTENTS OF YOUR API KEY"
+```
+* Set your PYTHONPATH variable to the repo root directory
+```shell
+$ export PYTHONPATH=$(pwd)
+```
+* Run the streamlit app
+```shell\
+$ streamlit run app.py
+```
+* Open your browser to http://localhost:8501 and use the chatbot
