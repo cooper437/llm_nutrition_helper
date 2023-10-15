@@ -8,9 +8,10 @@ from src.common_ingredient_finder import (
     generate_prominent_ingredients,
     parse_json_string,
 )
+from src.foundation_food_vector_store import query_vector_store_index
 from llama_index.query_engine.pandas_query_engine import PandasQueryEngine
 
-openai.log = "debug"
+# openai.log = "debug"
 
 st.set_page_config(
     page_title="Look up foods based on nutritional needs",
@@ -69,7 +70,11 @@ if st.session_state.messages[-1]["role"] != "assistant":
             )
             st.write("Okay here are some ingredients that seeem likely:")
             prominent_ingredients_md = ""
-            for i in parse_json_string(prominent_ingredients):
+            prominent_ingredients_list = parse_json_string(prominent_ingredients)
+            for i in prominent_ingredients_list:
                 prominent_ingredients_md += "- " + i + "\n"
             st.markdown(prominent_ingredients_md)
+            st.write("Finding nutrition info for these ingredients...")
+            for an_ingredient in prominent_ingredients_list:
+                query_vector_store_index(an_ingredient)
             # st.session_state.messages.append(first_message)  # Add response to message history
