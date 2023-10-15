@@ -3,6 +3,7 @@ import openai
 import streamlit as st
 import logging
 import json
+import copy
 
 openai.api_key = st.secrets.openai_key
 
@@ -43,7 +44,8 @@ def parse_json_string(json_str: str) -> List[str]:
 def generate_prominent_ingredients(meal_names: str) -> str:
     # Given a list of meal names, return the common and prominent ingredients
     # that can be used to compose the meal
-    messages.append({"role": "user", "content": meal_names})
+    messages_copy = copy.deepcopy(messages)
+    messages_copy.append({"role": "user", "content": meal_names})
     logging.info(
         'Fetching common and prominent ingredients for meal names "{}"'.format(
             meal_names
@@ -51,7 +53,7 @@ def generate_prominent_ingredients(meal_names: str) -> str:
     )
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo-0613",
-        messages=messages,
+        messages=messages_copy,
         temperature=0.5,
     )
     return response.choices[0].message.content

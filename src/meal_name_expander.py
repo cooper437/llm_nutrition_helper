@@ -1,6 +1,7 @@
 import openai
 import streamlit as st
 import logging
+import copy
 
 openai.api_key = st.secrets.openai_key
 
@@ -39,11 +40,12 @@ messages = [
 
 def generate_meal_names(a_meal_name: str) -> str:
     # Expand a meal name or short description into a list of similar meal names
-    messages.append({"role": "user", "content": a_meal_name})
+    messages_copy = copy.deepcopy(messages)
+    messages_copy.append({"role": "user", "content": a_meal_name})
     logging.info('Fetching completion from for "{}"'.format(a_meal_name))
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo-0613",
-        messages=messages,
+        messages=messages_copy,
         temperature=0.5,
     )
     return response.choices[0].message.content
