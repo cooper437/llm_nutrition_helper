@@ -13,6 +13,9 @@ openai = "^0.28.1"
 nltk = "^3.8.1"
 
 
+[tool.poetry.group.dev.dependencies]
+black = "^23.9.1"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
