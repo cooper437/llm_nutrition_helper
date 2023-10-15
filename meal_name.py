@@ -45,7 +45,7 @@ def generate_meal_names(a_meal_name: str) -> str:
         messages=messages,
         temperature=0.5,
     )
-    print(response.choices[0].message.content)
+    return response.choices[0].message.content
 
 
 generate_meal_names("Triple Chocolate Cake")
