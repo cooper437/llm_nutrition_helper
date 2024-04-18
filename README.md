@@ -1,5 +1,7 @@
 # Meal Nutrition Helper
 
+![example meal](./img/helper.png)
+
 ## Description
 A [streamlit](https://docs.streamlit.io/) chatbot that allows you to enter a meal name or short description and then returns the basic nutritional information for that meal such as calories, fat, carbs, and protein.
 
@@ -17,7 +19,7 @@ There are four stages to the chatbot:
 * Make sure python 3.11.4 is installed
 * Install python dependendcies: 
 ```shell
-$ poetry install
+$ poetry install --no-root
 ```
 * Spawn a virtualenv
 ```shell
@@ -37,6 +39,6 @@ $ export PYTHONPATH=$(pwd)
 ```
 * Run the streamlit app
 ```shell\
-$ streamlit run app.py
+$ streamlit run src/main.py
 ```
 * Open your browser to http://localhost:8501 and use the chatbot
